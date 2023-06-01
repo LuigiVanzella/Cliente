@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente</title>
+    <link rel="stylesheet" href="css/cliente.css">
+    <script>
+        let cliente = []; 
+        let TodosEmails = [];
+        let Emails = [];
+        let TodosTelefones = [];
+        let Telefones = [];
+
+        let stringCliente = JSON.stringify(cliente);
+        localStorage.setItem("vetorCliente",stringCliente);
+
+
+        function AddEmail(){
+
+            let NovoEmail = "";
+
+                
+            do {
+                NovoEmail = prompt("Digite um e-mail ou clique em 'Cancelar' para encerrar:"); // solicita ao usuário um email ou cancela o loop
+                if (NovoEmail !== null) { // verifica se o usuário não cancelou o loop
+                    Emails.push(NovoEmail); // adiciona o email ao array
+                }
+            } while (NovoEmail !== null); // continua o loop enquanto o usuário não cancelar
+
+            TodosEmails.push(Emails);
+
+
+        }  
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+        function AddTelefone(){
+
+            let NovoTelefone = "";
+
+                
+            do {
+                NovoTelefone = prompt("Digite um telefone ou clique em 'Cancelar' para encerrar:"); // solicita ao usuário um telefone ou cancela o loop
+                if (NovoTelefone !== null) { // verifica se o usuário não cancelou o loop
+                    Telefones.push(NovoTelefone); // adiciona o telefone ao array
+                }
+            } while (NovoTelefone !== null); // continua o loop enquanto o usuário não cancelar
+
+            TodosTelefones.push(Telefones);
+
+
+        }  
+            
+                   
+        
+//------------------------------------------------------------------------------------------------------------------------------------
+        function Incluir(){
+
+            let NovoEmail = document.getElementById("email").value;
+            Emails.push(NovoEmail);
+
+            let NovoTelefone = document.getElementById("telefone").value;
+            Telefones.push(NovoTelefone);
+
+            let objcpf = document.getElementById("cpf");
+            let objnome = document.getElementById("Nome");
+            let objdata= document.getElementById("data");
+            let objsexo = document.getElementById("Sexo");
+            let objsalario = document.getElementById("salario");
+            let objemail = Emails;
+            let objtelefone = Telefones;
+
+            let ListaCliente = {
+                cpf:objcpf.value,
+                nome:objnome.value,
+                data:objdata.value,
+                sexo:objsexo.value,
+                salario:objsalario.value,
+                email:objemail,
+                telefone:objtelefone
+
+            }
+
+            let flag=0;
+            for(let i=0; i<cliente.length; i++){
+                if (cliente[i].cpf == ListaCliente.cpf){
+                    flag = 1;
+                }
+            }
+            if (flag==1){
+                alert("O cadastro deste cliente não foi possível, pois as informações já foram cadastradas anteriormente");
+            }
+            
+            else{
+                cliente.push(ListaCliente);
+                alert("Cadastrado efetuado com sucesso");
+            }
+
+            Emails = [];
+            Telefones = [];
+            console.log(cliente);
+        }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+        function funcaoalterar(){
+
+            let NovoEmail = document.getElementById("email").value;
+            Emails.push(NovoEmail);
+
+            let NovoTelefone = document.getElementById("telefone").value;
+            Telefones.push(NovoTelefone);
+
+            let flag = -1;
+            objcpf = document.getElementById("cpf").value;
+            for(let i=0; i<cliente.length; i++){
+                if (cliente[i].cpf == objcpf){
+                    cliente[i].nome = document.getElementById("Nome").value;
+                    cliente[i].data = document.getElementById("data").value;
+                    cliente[i].sexo = document.getElementById("Sexo").value;
+                    cliente[i].salario = document.getElementById("salario").value;
+                    cliente[i].email = Emails;
+                    cliente[i].telefone = Telefones;
+                    flag = 1;
+                }
+            }
+            if(flag != -1){
+                alert("Cliente alterado com sucesso")
+            }
+
+            Emails = [];
+            Telefones = [];
+            console.log(cliente)
+            
+        }
+
+        function alterar(){
+            let flag=-1;
+            objcpf = document.getElementById("cpf").value;
+            for(let i=0; i<cliente.length; i++){
+                if (cliente[i].cpf == objcpf){
+                    flag = i;
+                    
+                }
+            }
+            if (flag != -1){
+                document.getElementById("cpf").value = cliente[flag].cpf;
+                document.getElementById("Nome").value = cliente[flag].nome;
+                document.getElementById("data").value = cliente[flag].data;
+                document.getElementById("Sexo").value = cliente[flag].sexo;
+                document.getElementById("salario").value = cliente[flag].salario;
+                document.getElementById("email").value = cliente[flag].email;
+                document.getElementById("telefone").value = cliente[flag].telefone;
+
+                document.getElementById("salvaralteracao").innerHTML = "<button onclick='funcaoalterar()'>"+ "Salvar Alteração" + "</button>";
+            }
+            else{
+                
+                alert("Cliente não encontrado, favor colocar outro CPF para alteração");
+            }
+
+        }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+        function Excluir(){
+            let flag=-1;
+            objcpf = document.getElementById("cpf").value;
+            for(let i=0; i<cliente.length; i++){
+                if (cliente[i].cpf == objcpf){
+                    flag = i;
+                    
+                }
+            }
+            if (flag != -1){
+                cliente.splice(flag,1);
+                alert ("Cliente removido com sucesso");
+            }
+            else{
+                alert("Cliente não removido, pois não foi encontrado");
+            }
+            console.log(cliente);
+        }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+        
+        function ListarUm(){
+            let flag=-1;
+            objcpf = document.getElementById("cpf").value;
+            for(let i=0; i<cliente.length; i++){
+                if (cliente[i].cpf == objcpf){
+                    flag = i;
+
+                }
+            }
+            if (flag != -1){
+                alert("CPF:" + cliente[flag].cpf + "\nNOME:" + cliente[flag].nome + "\nDATA:" + cliente[flag].data + "\nSEXO:" + cliente[flag].sexo + "\nSALARIO:" + cliente[flag].salario + "\nEMAIL:" + cliente[flag].email + "\nTELEFONE:" + cliente[flag].telefone);
+            }
+            else{
+                alert("Cliente não encontrado");
+            }
+        }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+        function ListarTudo(){
+            str = "";
+            for(let i=0; i<cliente.length; i++){
+                str += "Cliente - "+ [i] +
+                        "\nCPF:" + cliente[i].cpf + 
+                        "\nNOME:" + cliente[i].nome + 
+                        "\nDATA:" + cliente[i].data + 
+                        "\nSEXO:" + cliente[i].sexo + 
+                        "\nSALARIO:" + cliente[i].salario + 
+                        "\nEMAIL:" + cliente[i].email + 
+                        "\nTELEFONE:" + cliente[i].telefone;
+            }
+            
+            if (str == ""){
+                alert("Nenhum cliente encontrado");
+            }
+            else{
+                alert(str);
+            }
+        }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+        
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Imobiliaria Uniao</h1>
+        <h2>Cliente</h2>
+    </header>
+    <article>
+        <form class="principal">
+            <label for="cpf">CPF: </label>  
+            <input type="text" name="" id="cpf" placeholder="123.456.789-00"><br>
+
+            <label for="Nome">Nome: </label>
+            <input type="text" name="" id="Nome"><br><br>
+
+            <label for="data">Data de Nascimento:</label>
+            <input type="date" name="" id="data"><br><br>
+
+            <label for="Sexo">Sexo: </label>
+            <select id="Sexo">
+                <option hidden="true"></option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Outros">Outros</option>
+            </select><br><br>
+
+            <label for="salario">Salario: </label>
+            <input type="number" name="" id="salario"><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email"><br><br>
+
+            <label for="telefone">Telefone:</label>
+            <input type="text" name="" id="telefone">
+
+        </form>
+
+        <div id="alteracao" class="principal">
+        <button onclick="AddEmail()">Adicionar Outro Email</button>
+        <button onclick="AddTelefone()">Adicionar Outro Telefone</button>
+        </div>
+        <div id="salvaralteracao" class="principal">
+        </div>
+
+        <div id="botoes" class="principal">
+            <button onclick="Incluir()">Incluir</button>
+            <button onclick="alterar()">Alterar</button>
+            <button onclick="Excluir()">Excluir</button>
+            <button onclick="ListarUm()">Listar Um</button>
+            <button onclick="ListarTudo()">Listar Todos</button>
+        </div>
+        
+    </article>
+    
+    
+</body>
+</html>
