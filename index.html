@@ -98,6 +98,9 @@
                 alert("Cadastrado efetuado com sucesso");
             }
 
+            let stringCliente = JSON.stringify(cliente);
+            localStorage.setItem("vetorCliente",stringCliente);
+
             Emails = [];
             Telefones = [];
             console.log(cliente);
@@ -161,6 +164,9 @@
                 alert("Cliente não encontrado, favor colocar outro CPF para alteração");
             }
 
+            let stringCliente = JSON.stringify(cliente);
+            localStorage.setItem("vetorCliente",stringCliente);
+
         }
 
 //------------------------------------------------------------------------------------------------------------------------------------
@@ -181,6 +187,10 @@
             else{
                 alert("Cliente não removido, pois não foi encontrado");
             }
+
+            let stringCliente = JSON.stringify(cliente);
+            localStorage.setItem("vetorCliente",stringCliente);
+            
             console.log(cliente);
         }
 
